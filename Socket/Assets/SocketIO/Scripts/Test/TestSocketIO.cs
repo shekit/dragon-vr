@@ -84,7 +84,10 @@ public class TestSocketIO : MonoBehaviour
 		socket.On ("right", MoveRightEuler);
 		socket.On ("up", MoveUpEuler);
 		socket.On ("down", MoveDownEuler);
-		socket.On ("even", EvenUpEuler);
+		socket.On ("evenup", EvenUpEuler);
+		socket.On ("evendown", EvenDownEuler);
+		socket.On ("evenleft", EvenLeftEuler);
+		socket.On ("evenright", EvenRightEuler);
 
 	}
 
@@ -276,6 +279,7 @@ public class TestSocketIO : MonoBehaviour
 
 	//// USING EULER ANGLES /////
 
+	// LEFTTTTT
 	public void MoveLeftEuler(SocketIOEvent e){
 		Debug.Log ("euler left");
 		StartCoroutine ("LeftEuler");
@@ -298,9 +302,14 @@ public class TestSocketIO : MonoBehaviour
 		StartCoroutine ("EvenLeftEuler");
 
 	}
-	
-	private IEnumerator EvenLeftEuler(){
-		
+	public void EvenLeftEuler(SocketIOEvent e){
+		Debug.Log ("even up");
+		StartCoroutine ("EvenLeftEulerCoroutine");
+	}
+
+	private IEnumerator EvenLeftEulerCoroutine(){
+		Debug.Log ("even right euler coroutine");
+		yield return new WaitForSeconds (0.2f);
 		while (euler.z > 0) {
 			euler.z = (euler.z - bankSpeed * Time.deltaTime);
 			transform.eulerAngles = euler;
@@ -310,7 +319,8 @@ public class TestSocketIO : MonoBehaviour
 		euler.z = 0;
 		transform.eulerAngles = euler;
 	}
-	
+
+	/// RIGHTTTT
 	public void MoveRightEuler(SocketIOEvent e){
 		Debug.Log ("euler right");
 		StartCoroutine ("RightEuler");
@@ -333,8 +343,14 @@ public class TestSocketIO : MonoBehaviour
 		
 		StartCoroutine ("EvenRightEuler");
 	}
-	
-	private IEnumerator EvenRightEuler(){
+	public void EvenRightEuler(SocketIOEvent e){
+		Debug.Log ("even right");
+		StartCoroutine ("EvenRightEulerCoroutine");
+	}
+
+	private IEnumerator EvenRightEulerCoroutine(){
+		Debug.Log ("even right euler coroutine");
+		yield return new WaitForSeconds (0.2f);
 		while (euler.z < 0) {
 			euler.z = (euler.z + bankSpeed * Time.deltaTime);
 			transform.eulerAngles = euler;
@@ -346,6 +362,7 @@ public class TestSocketIO : MonoBehaviour
 		transform.eulerAngles = euler;
 	}
 
+	//// UPPPPPP
 	public void MoveUpEuler(SocketIOEvent e){
 		Debug.Log ("euler up");
 		StartCoroutine ("UpEuler");
@@ -382,7 +399,8 @@ public class TestSocketIO : MonoBehaviour
 		euler.x = 0;
 		transform.eulerAngles = euler;
 	}
-	
+
+	///// DOWNNNN
 	public void MoveDownEuler(SocketIOEvent e){
 		Debug.Log ("euler down");
 		StartCoroutine ("DownEuler");
@@ -400,14 +418,20 @@ public class TestSocketIO : MonoBehaviour
 			}
 		}
 
-			yield return new WaitForSeconds (0.2f);
+		yield return new WaitForSeconds (0.2f);
 		
-			StartCoroutine ("EvenDownEuler");
+		StartCoroutine ("EvenDownEuler");
 
 	}
 
-	private IEnumerator EvenDownEuler(){
+	public void EvenDownEuler(SocketIOEvent e){
+		Debug.Log ("even down");
+		StartCoroutine ("EvenDownEulerCoroutine");
+	}
+
+	private IEnumerator EvenDownEulerCoroutine(){
 		Debug.Log ("Even down euler");
+		yield return new WaitForSeconds (0.2f);
 		while (euler.x > 0) {
 			euler.x = (euler.x - evenSpeed*Time.deltaTime);
 			transform.eulerAngles = euler;
@@ -416,11 +440,7 @@ public class TestSocketIO : MonoBehaviour
 		euler.x = 0;
 		transform.eulerAngles = euler;
 	}
-
-
 	
-
-
 	//// END OF USING EULER ANGLES ////
 
 	public void Update(){
