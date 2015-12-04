@@ -5,9 +5,9 @@
 
 
 
-String upUrl = "http://128.122.6.128:3000/up/"; 
+//String upUrl = "http://128.122.6.128:3000/up/"; 
 
-String downUrl = "http://128.122.6.128:3000/down/"; 
+//String downUrl = "http://128.122.6.128:3000/down/"; 
 
 String leftUrl = "http://128.122.6.128:3000/left/"; //CHECK UR IP
 
@@ -21,7 +21,9 @@ String evenRightUrl = "http://128.122.6.128:3000/even-right/";
 
 String evenLeftUrl = "http://128.122.6.128:3000/even-left/";
 
+String upDownUrl = "http://128.122.6.128:3000/move/";
 
+String upUrl = "";
 
 // PROCESS VARIABLES
 Process up;
@@ -71,97 +73,75 @@ void loop() {
   
   
   if(upButtonState == HIGH){
+    Serial.println(upDownUrl+"up");
     prevUpButtonState = HIGH;
-    //Serial.println("button is high");
     up.begin("curl");
-    up.addParameter(upUrl);
+    up.addParameter(upDownUrl+"up");
     up.run();
   }
   
   if(upButtonState == LOW && prevUpButtonState == HIGH){
+     Serial.println("up button released");
      prevUpButtonState = LOW;
-     //Serial.println("changed to low");
-     evenUp.begin("curl");
-     evenUp.addParameter(evenUpUrl);
-     evenUp.run(); 
+//     evenUp.begin("curl");
+//     evenUp.addParameter(evenUpUrl);
+//     evenUp.run(); 
   }
   
   if(downButtonState == HIGH){
+     Serial.println("down");
      prevDownButtonState = HIGH;
-     down.begin("curl");
-     down.addParameter(downUrl);
-     down.run();     
+//     down.begin("curl");
+//     down.addParameter(downUrl);
+//     down.run();     
   }
   
   if(downButtonState == LOW && prevDownButtonState == HIGH){
+     Serial.println("down button released");
      prevDownButtonState = LOW;
-     evenDown.begin("curl");
-     evenDown.addParameter(evenDownUrl);
-     evenDown.run(); 
+     up.begin("curl");
+     up.addParameter(upDownUrl+"down");
+     up.run();
+//     evenDown.begin("curl");
+//     evenDown.addParameter(evenDownUrl);
+//     evenDown.run(); 
   }
   
   if(leftButtonState == HIGH){
-     p2.begin("curl");
-     p2.addParameter(leftUrl);
-     p2.run(); 
+     Serial.println("left");
+     prevLeftButtonState = HIGH;
+//     left.begin("curl");
+//     left.addParameter(leftUrl);
+//     left.run(); 
+  }
+  
+  if(leftButtonState == LOW && prevLeftButtonState == HIGH){
+    Serial.println("left button released");
+     prevLeftButtonState = LOW;
+//     evenLeft.begin("curl");
+//     evenLeft.addParameter(evenLeftUrl);
+//     evenLeft.run(); 
   }
   
   if(rightButtonState == HIGH){
-     p3.begin("curl");
-     p3.addParameter(rightUrl);
-     p3.run(); 
+    Serial.println("right");
+     prevRightButtonState = HIGH;
+//     right.begin("curl");
+//     right.addParameter(rightUrl);
+//     right.run(); 
   }
-  //READING AND CREATING FONT URL
-//  fontPinVal = analogRead(fontPin);
-//  
-//  //fontVal = map(fontPinVal, 0 , 1023, 0, 10);
-//  
-//  newFontUrl = fontUrl + fontPinVal;
-//  
-//  if(fontPinVal != prevFontVal){
-//     //Process p2 for font
-//    p.begin("curl");
-//    p.addParameter(newFontUrl);
-//    p.run();
-//    
-//    prevFontVal = fontPinVal;
-//  }
-//  
-//  
-//  //READING AND CREATING SIZE URL
-//  sizePinVal = analogRead(sizePin);
-//  
-//  //sizeVal = map(sizePinVal, 0, 1023, 0 , 10);
-//  
-//  newSizeUrl = sizeUrl + sizePinVal;
-//  
-//  if(sizePinVal != prevSizeVal){
-//    //Process p for size;
-//    p1.begin("curl");                    
-//    p1.addParameter(newSizeUrl); 
-//    p1.run();   
-//    
-//    prevSizeVal = sizePinVal;
-//  }
-//  
-//  
-//  //READING AND CREATING MOVE URL
-//  movePinVal = analogRead(movePin);
-//  
-//  //moveVal = map(movePinVal, 0 , 1023, 0, 500);
-//  
-//  newMoveUrl = moveUrl + movePinVal;
-//  
-//  if(movePinVal != prevMoveVal){
-//     //Process p1 for move;
-//    p2.begin("curl");
-//    p2.addParameter(newMoveUrl);
-//    p2.run();
-//    
-//    prevMoveVal = movePinVal;
-//  }
+  
+  if(rightButtonState == LOW && prevRightButtonState == HIGH){
+    Serial.println("right button released");
+     prevRightButtonState = LOW;
+//     evenRight.begin("curl");
+//     evenRight.addParameter(evenRightUrl);
+//     evenRight.run(); 
+  }
+  
   
 
+ 
   delay(20);
  
 
