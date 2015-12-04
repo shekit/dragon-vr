@@ -5,11 +5,11 @@
 
 
 
-//String upUrl = "http://128.122.6.128:3000/up/"; 
+String upUrl = "http://128.122.6.128:3000/up/"; 
 
-//String downUrl = "http://128.122.6.128:3000/down/"; 
+String downUrl = "http://128.122.6.128:3000/down/"; 
 
-String leftUrl = "http://128.122.6.128:3000/left/"; //CHECK UR IP
+String leftUrl = "http://128.122.6.128:3000/left/";
 
 String rightUrl = "http://128.122.6.128:3000/right/"; 
 
@@ -17,13 +17,9 @@ String evenUpUrl = "http://128.122.6.128:3000/even-up/";
 
 String evenDownUrl = "http://128.122.6.128:3000/even-down/";
 
-String evenRightUrl = "http://128.122.6.128:3000/even-right/";
-
 String evenLeftUrl = "http://128.122.6.128:3000/even-left/";
 
-String upDownUrl = "http://128.122.6.128:3000/move/";
-
-String upUrl = "";
+String evenRightUrl = "http://128.122.6.128:3000/even-right/";
 
 // PROCESS VARIABLES
 Process up;
@@ -73,70 +69,71 @@ void loop() {
   
   
   if(upButtonState == HIGH){
-    Serial.println(upDownUrl+"up");
+    //Serial.println("up");
     prevUpButtonState = HIGH;
     up.begin("curl");
-    up.addParameter(upDownUrl+"up");
+    up.addParameter(upUrl);
     up.run();
   }
   
   if(upButtonState == LOW && prevUpButtonState == HIGH){
-     Serial.println("up button released");
+     //Serial.println("up button released");
      prevUpButtonState = LOW;
-//     evenUp.begin("curl");
-//     evenUp.addParameter(evenUpUrl);
-//     evenUp.run(); 
+     evenUp.begin("curl");
+     evenUp.addParameter(evenUpUrl);
+     evenUp.run(); 
   }
   
   if(downButtonState == HIGH){
-     Serial.println("down");
+     //Serial.println("down");
      prevDownButtonState = HIGH;
-//     down.begin("curl");
-//     down.addParameter(downUrl);
-//     down.run();     
+     down.begin("curl");
+     down.addParameter(downUrl);
+     down.run();
+//     up.begin("curl");
+//     up.addParameter(upDownUrl+"down");
+//     up.run();
   }
   
   if(downButtonState == LOW && prevDownButtonState == HIGH){
-     Serial.println("down button released");
+     //Serial.println("down button released");
      prevDownButtonState = LOW;
-     up.begin("curl");
-     up.addParameter(upDownUrl+"down");
-     up.run();
-//     evenDown.begin("curl");
-//     evenDown.addParameter(evenDownUrl);
-//     evenDown.run(); 
+     
+     evenDown.begin("curl");
+     evenDown.addParameter(evenDownUrl);
+     evenDown.run(); 
   }
   
   if(leftButtonState == HIGH){
-     Serial.println("left");
+     //Serial.println("left");
      prevLeftButtonState = HIGH;
-//     left.begin("curl");
-//     left.addParameter(leftUrl);
-//     left.run(); 
+     left.begin("curl");
+     left.addParameter(leftUrl);
+     left.run(); 
   }
   
   if(leftButtonState == LOW && prevLeftButtonState == HIGH){
-    Serial.println("left button released");
+    //Serial.println("left button released");
      prevLeftButtonState = LOW;
-//     evenLeft.begin("curl");
-//     evenLeft.addParameter(evenLeftUrl);
-//     evenLeft.run(); 
+     evenLeft.begin("curl");
+     evenLeft.addParameter(evenLeftUrl);
+     evenLeft.run(); 
   }
   
   if(rightButtonState == HIGH){
-    Serial.println("right");
+    //Serial.println("right");
      prevRightButtonState = HIGH;
-//     right.begin("curl");
-//     right.addParameter(rightUrl);
-//     right.run(); 
+     right.begin("curl");
+     right.addParameter(rightUrl);
+     right.run(); 
   }
   
   if(rightButtonState == LOW && prevRightButtonState == HIGH){
-    Serial.println("right button released");
+    //Serial.println("right button released");
      prevRightButtonState = LOW;
-//     evenRight.begin("curl");
-//     evenRight.addParameter(evenRightUrl);
-//     evenRight.run(); 
+     evenRight.begin("curl");
+     evenRight.addParameter(evenRightUrl);
+     evenRight.run(); 
   }
   
   

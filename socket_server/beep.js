@@ -26,6 +26,7 @@ var router = Router();
 
 var server = http.createServer(router);
 
+
 router.get("/left", function(request, response){
 	io.emit("left");
 	console.log("Left Left")
