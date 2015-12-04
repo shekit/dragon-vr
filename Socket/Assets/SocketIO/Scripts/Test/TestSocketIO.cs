@@ -35,9 +35,9 @@ public class TestSocketIO : MonoBehaviour
 	private SocketIOComponent socket;
 
 	public float moveSpeed = 10f;
-	public float turnSpeed = 10f;
-	public float bankSpeed = 5f;
-	public float evenSpeed = 5f;
+	public float turnSpeed = 5f;
+	public float bankSpeed = 20f;
+	public float evenSpeed = 20f;
 	private Rigidbody rb;
 	public float thrust = 5f;
 
@@ -296,19 +296,15 @@ public class TestSocketIO : MonoBehaviour
 			transform.eulerAngles = euler;
 			yield return null;
 		}
-		
-		yield return new WaitForSeconds (0.2f);
-		
-		StartCoroutine ("EvenLeftEuler");
-
 	}
+
 	public void EvenLeftEuler(SocketIOEvent e){
-		Debug.Log ("even up");
+		Debug.Log ("even up left");
 		StartCoroutine ("EvenLeftEulerCoroutine");
 	}
 
 	private IEnumerator EvenLeftEulerCoroutine(){
-		Debug.Log ("even right euler coroutine");
+		Debug.Log ("even left euler coroutine");
 		yield return new WaitForSeconds (0.2f);
 		while (euler.z > 0) {
 			euler.z = (euler.z - bankSpeed * Time.deltaTime);
@@ -338,11 +334,8 @@ public class TestSocketIO : MonoBehaviour
 			transform.eulerAngles = euler;
 			yield return null;
 		}
-		
-		yield return new WaitForSeconds (0.2f);
-		
-		StartCoroutine ("EvenRightEuler");
 	}
+
 	public void EvenRightEuler(SocketIOEvent e){
 		Debug.Log ("even right");
 		StartCoroutine ("EvenRightEulerCoroutine");
@@ -374,7 +367,7 @@ public class TestSocketIO : MonoBehaviour
 		
 		while (Time.time <= currentTime + 1f) {
 			if(euler.x > -90){
-				euler.x = (euler.x-evenSpeed*Time.deltaTime);
+				euler.x = (euler.x-turnSpeed*Time.deltaTime);
 				transform.eulerAngles = euler;
 			}
 			yield return null;
@@ -412,15 +405,11 @@ public class TestSocketIO : MonoBehaviour
 		
 		while (Time.time <= currentTime + 1f) {
 			if(euler.x < 90){
-				euler.x = (euler.x+evenSpeed*Time.deltaTime);
+				euler.x = (euler.x+turnSpeed*Time.deltaTime);
 				transform.eulerAngles = euler;
 				yield return null;
 			}
 		}
-
-		yield return new WaitForSeconds (0.2f);
-		
-		StartCoroutine ("EvenDownEuler");
 
 	}
 
