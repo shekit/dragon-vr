@@ -35,6 +35,7 @@ public class TestSocketIO : MonoBehaviour
 	private SocketIOComponent socket;
 
 	public float moveSpeed = 10f;
+	public float diveSpeed = 20f;
 	public float turnSpeed = 5f;
 	public float bankSpeed = 20f;
 	public float evenSpeed = 20f;
@@ -45,8 +46,11 @@ public class TestSocketIO : MonoBehaviour
 
 	private Vector3 euler; 
 
-	private bool rising = false;
-	private bool diving = false;
+	private bool upCoroutineStarted = false;
+	private bool downCoroutineStarted = false;
+	private bool leftCoroutineStarted = false;
+	private bool rightCoroutineStarted = false;
+
 
 	public void Start() 
 	{
@@ -396,20 +400,29 @@ public class TestSocketIO : MonoBehaviour
 
 	///// DOWNNNN
 	public void MoveDownEuler(SocketIOEvent e){
-		Debug.Log ("euler down");
-		moveSpeed = moveSpeed*2.0f;
+		//Debug.Log ("euler down");
+		//moveSpeed = moveSpeed*2.0f;
 
 		StartCoroutine ("DownEuler");
 	}
 	
 	private IEnumerator DownEuler(){
-		Debug.Log ("Smooth down euler");
+		//Debug.Log ("Smooth down euler");
+		if (downCoroutineStarted == true) {
+			Debug.Log ("DOWN COROUTINE CANCELLED");
+			downCoroutineStarted = false;
+			StopCoroutine("EvenDownEulerCoroutine");
+		}
 		float currentTime = Time.time;
 		
 		while (Time.time <= currentTime + 1f) {
 			if(euler.x < 70){
+				if(moveSpeed < 25f){
+					moveSpeed += 0.08f;
+				}
+				//moveSpeed = Mathf.Lerp(moveSpeed, diveSpeed, Time.deltaTime);
 				euler.x = (euler.x+turnSpeed*Time.deltaTime);
-				Debug.Log ("Euler x: "+ euler.x);
+				//Debug.Log ("Euler x: "+ euler.x);
 				transform.eulerAngles = euler;
 			}
 			yield return null;
@@ -418,20 +431,27 @@ public class TestSocketIO : MonoBehaviour
 	}
 
 	public void EvenDownEuler(SocketIOEvent e){
-		Debug.Log ("even down");
+		//Debug.Log ("even down");
 		StartCoroutine ("EvenDownEulerCoroutine");
 	}
 
 	private IEnumerator EvenDownEulerCoroutine(){
 		Debug.Log ("Even down euler");
+		downCoroutineStarted = true;
 		yield return new WaitForSeconds (0.2f);
 		while (euler.x > 0) {
+			if(moveSpeed>10f){
+				moveSpeed -= 0.1f;
+			}
+			//moveSpeed = Mathf.Lerp(diveSpeed, moveSpeed, Time.deltaTime);
 			euler.x = (euler.x - evenSpeed*Time.deltaTime);
 			transform.eulerAngles = euler;
 			yield return null;
 		}
+		moveSpeed = 10f;
 		euler.x = 0;
 		transform.eulerAngles = euler;
+		downCoroutineStarted = false;
 	}
 	
 	//// END OF USING EULER ANGLES ////
