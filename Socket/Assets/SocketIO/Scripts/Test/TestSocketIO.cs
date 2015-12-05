@@ -366,7 +366,7 @@ public class TestSocketIO : MonoBehaviour
 		float currentTime = Time.time;
 		
 		while (Time.time <= currentTime + 1f) {
-			if(euler.x > -90){
+			if(euler.x > -70){
 				euler.x = (euler.x-turnSpeed*Time.deltaTime);
 				transform.eulerAngles = euler;
 			}
@@ -386,6 +386,7 @@ public class TestSocketIO : MonoBehaviour
 		yield return new WaitForSeconds (0.2f);
 		while (euler.x < 0) {
 			euler.x = (euler.x + evenSpeed*Time.deltaTime);
+			//euler.x = Mathf.LerpAngle(euler.x, 0.0f, Time.deltaTime);
 			transform.eulerAngles = euler;
 			yield return null;
 		}
@@ -396,6 +397,8 @@ public class TestSocketIO : MonoBehaviour
 	///// DOWNNNN
 	public void MoveDownEuler(SocketIOEvent e){
 		Debug.Log ("euler down");
+		moveSpeed = moveSpeed*2.0f;
+
 		StartCoroutine ("DownEuler");
 	}
 	
@@ -404,11 +407,12 @@ public class TestSocketIO : MonoBehaviour
 		float currentTime = Time.time;
 		
 		while (Time.time <= currentTime + 1f) {
-			if(euler.x < 90){
+			if(euler.x < 70){
 				euler.x = (euler.x+turnSpeed*Time.deltaTime);
+				Debug.Log ("Euler x: "+ euler.x);
 				transform.eulerAngles = euler;
-				yield return null;
 			}
+			yield return null;
 		}
 
 	}
