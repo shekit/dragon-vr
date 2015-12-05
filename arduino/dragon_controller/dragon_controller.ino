@@ -3,23 +3,23 @@
 
 // URLS FOR PARAMETERS
 
+String ipAdd = "http://128.122.6.245:3000/";
 
+String upUrl = ipAdd+"up/"; 
 
-String upUrl = "http://128.122.6.128:3000/up/"; 
+String downUrl = ipAdd+"down/"; 
 
-String downUrl = "http://128.122.6.128:3000/down/"; 
+String leftUrl = ipAdd+"left/";
 
-String leftUrl = "http://128.122.6.128:3000/left/";
+String rightUrl = ipAdd+"right/"; 
 
-String rightUrl = "http://128.122.6.128:3000/right/"; 
+String evenUpUrl = ipAdd+"even-up/";
 
-String evenUpUrl = "http://128.122.6.128:3000/even-up/";
+String evenDownUrl = ipAdd+"even-down/";
 
-String evenDownUrl = "http://128.122.6.128:3000/even-down/";
+String evenLeftUrl = ipAdd+"even-left/";
 
-String evenLeftUrl = "http://128.122.6.128:3000/even-left/";
-
-String evenRightUrl = "http://128.122.6.128:3000/even-right/";
+String evenRightUrl = ipAdd+"even-right/";
 
 // PROCESS VARIABLES
 Process up;
