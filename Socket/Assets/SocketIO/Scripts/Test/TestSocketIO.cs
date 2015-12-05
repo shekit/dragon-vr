@@ -290,6 +290,20 @@ public class TestSocketIO : MonoBehaviour
 	}
 	
 	private IEnumerator LeftEuler(){
+		//if left button is pressed while dragon is evening out, cancel the evening out and turn more left
+		if (leftCoroutineStarted == true) {
+			Debug.Log ("CANCEL LEFT COROUTINE");
+			leftCoroutineStarted = false;
+			StopCoroutine("EvenLeftEulerCoroutine");
+		}
+
+		// if you switch from left to right suddenly
+
+		if (rightCoroutineStarted == true) {
+			rightCoroutineStarted = false;
+			StopCoroutine("EvenRightEulerCoroutine");
+		}
+
 		float currentTime = Time.time;
 		while (Time.time <= currentTime + 1f) {
 			euler.y = (euler.y - turnSpeed * Time.deltaTime);
@@ -309,6 +323,7 @@ public class TestSocketIO : MonoBehaviour
 
 	private IEnumerator EvenLeftEulerCoroutine(){
 		Debug.Log ("even left euler coroutine");
+		leftCoroutineStarted = true;
 		yield return new WaitForSeconds (0.2f);
 		while (euler.z > 0) {
 			euler.z = (euler.z - bankSpeed * Time.deltaTime);
@@ -318,6 +333,7 @@ public class TestSocketIO : MonoBehaviour
 		// properly reset the z
 		euler.z = 0;
 		transform.eulerAngles = euler;
+		leftCoroutineStarted = false;
 	}
 
 	/// RIGHTTTT
@@ -327,6 +343,17 @@ public class TestSocketIO : MonoBehaviour
 	}
 	
 	private IEnumerator RightEuler(){
+		if (rightCoroutineStarted == true) {
+			Debug.Log ("CANCEL RIGHT COROUTINE");
+			rightCoroutineStarted = false;
+			StopCoroutine("EvenRightEulerCoroutine");
+		}
+
+		if (leftCoroutineStarted == true) {
+			leftCoroutineStarted = false;
+			StopCoroutine("EvenLeftEulerCoroutine");
+		}
+
 		float currentTime = Time.time;
 		
 		while (Time.time <= currentTime + 1f) {
@@ -347,6 +374,8 @@ public class TestSocketIO : MonoBehaviour
 
 	private IEnumerator EvenRightEulerCoroutine(){
 		Debug.Log ("even right euler coroutine");
+
+		rightCoroutineStarted = true;
 		yield return new WaitForSeconds (0.2f);
 		while (euler.z < 0) {
 			euler.z = (euler.z + bankSpeed * Time.deltaTime);
@@ -357,6 +386,7 @@ public class TestSocketIO : MonoBehaviour
 		// properly reset the z
 		euler.z = 0;
 		transform.eulerAngles = euler;
+		rightCoroutineStarted = false;
 	}
 
 	//// UPPPPPP
@@ -367,6 +397,19 @@ public class TestSocketIO : MonoBehaviour
 	
 	private IEnumerator UpEuler(){
 		Debug.Log ("Smooth up euler");
+		// if the dragon is leveling out and asked to rise again, cancel the leveling out
+		if (upCoroutineStarted == true) {
+			Debug.Log ("CANCEL UP COROUTINE");
+			upCoroutineStarted = false;
+			StopCoroutine("EvenUpEulerCoroutine");
+		}
+
+		if (downCoroutineStarted == true) {;
+			downCoroutineStarted = false;
+			StopCoroutine("EvenDownEulerCoroutine");
+		}
+
+
 		float currentTime = Time.time;
 		
 		while (Time.time <= currentTime + 1f) {
@@ -387,6 +430,8 @@ public class TestSocketIO : MonoBehaviour
 	
 	private IEnumerator EvenUpEulerCoroutine(){
 		Debug.Log ("Even up euler");
+		//change bool so we know if to cancel it
+		upCoroutineStarted = true;
 		yield return new WaitForSeconds (0.2f);
 		while (euler.x < 0) {
 			euler.x = (euler.x + evenSpeed*Time.deltaTime);
@@ -396,6 +441,8 @@ public class TestSocketIO : MonoBehaviour
 		}
 		euler.x = 0;
 		transform.eulerAngles = euler;
+		//set bool to false once over
+		upCoroutineStarted = false;
 	}
 
 	///// DOWNNNN
@@ -413,6 +460,12 @@ public class TestSocketIO : MonoBehaviour
 			downCoroutineStarted = false;
 			StopCoroutine("EvenDownEulerCoroutine");
 		}
+
+		if (upCoroutineStarted == true) {
+			upCoroutineStarted = false;
+			StopCoroutine("EvenUpEulerCoroutine");
+		}
+
 		float currentTime = Time.time;
 		
 		while (Time.time <= currentTime + 1f) {
