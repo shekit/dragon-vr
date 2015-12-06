@@ -34,11 +34,16 @@ public class TestSocketIO : MonoBehaviour
 {
 	private SocketIOComponent socket;
 
+	public float originalMoveSpeed = 10f;
 	public float moveSpeed = 10f;
+
 	public float diveSpeed = 20f;
-	public float turnSpeed = 5f;
+	public float maxDiveSpeed = 25f;
+
+	public float turnSpeed = 8f;
 	public float bankSpeed = 20f;
 	public float evenSpeed = 20f;
+
 	private Rigidbody rb;
 	public float thrust = 5f;
 
@@ -470,7 +475,7 @@ public class TestSocketIO : MonoBehaviour
 		
 		while (Time.time <= currentTime + 1f) {
 			if(euler.x < 70){
-				if(moveSpeed < 25f){
+				if(moveSpeed < maxDiveSpeed){
 					moveSpeed += 0.08f;
 				}
 				//moveSpeed = Mathf.Lerp(moveSpeed, diveSpeed, Time.deltaTime);
@@ -493,7 +498,7 @@ public class TestSocketIO : MonoBehaviour
 		downCoroutineStarted = true;
 		yield return new WaitForSeconds (0.2f);
 		while (euler.x > 0) {
-			if(moveSpeed>10f){
+			if(moveSpeed>originalMoveSpeed){
 				moveSpeed -= 0.1f;
 			}
 			//moveSpeed = Mathf.Lerp(diveSpeed, moveSpeed, Time.deltaTime);
@@ -501,9 +506,15 @@ public class TestSocketIO : MonoBehaviour
 			transform.eulerAngles = euler;
 			yield return null;
 		}
-		moveSpeed = 10f;
+
 		euler.x = 0;
 		transform.eulerAngles = euler;
+		moveSpeed = originalMoveSpeed;
+//		while (moveSpeed > originalMoveSpeed) {
+//			moveSpeed = Mathf.Lerp(moveSpeed, originalMoveSpeed, Time.deltaTime);
+//			yield return null;
+//		}
+
 		downCoroutineStarted = false;
 	}
 	
@@ -512,6 +523,10 @@ public class TestSocketIO : MonoBehaviour
 	public void Update(){
 		transform.Translate (Vector3.forward * moveSpeed * Time.deltaTime);
 
+//		if (moveSpeed > 10f) {
+//			Debug.Log ("from loop");
+//			moveSpeed = Mathf.Lerp (moveSpeed, 10f, Time.deltaTime);
+//		}
 	}
 	
 
