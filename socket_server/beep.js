@@ -9,10 +9,6 @@ io.attach(4567);
 
 io.on('connection', function(socket){
 	console.log('unity connected')
-	socket.on('beep', function(){
-		console.log("Got a beep")
-		io.emit('boop');
-	});
 
 	socket.on('disconnect', function(){
 		console.log("Unity disconnected")
