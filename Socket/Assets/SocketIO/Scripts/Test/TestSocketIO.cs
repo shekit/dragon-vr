@@ -99,6 +99,7 @@ public class TestSocketIO : MonoBehaviour
 		socket.On ("evendown", EvenDownEuler);
 		socket.On ("evenleft", EvenLeftEuler);
 		socket.On ("evenright", EvenRightEuler);
+		//socket.On ("barrel", BarrelRollEuler);
 
 	}
 
