@@ -21,6 +21,8 @@ String evenLeftUrl = ipAdd+"even-left/";
 
 String evenRightUrl = ipAdd+"even-right/";
 
+String rollUrl = ipAdd+"barrel-roll/";
+
 // PROCESS VARIABLES
 Process up;
 Process down;
@@ -30,8 +32,12 @@ Process evenUp;
 Process evenDown;
 Process evenLeft;
 Process evenRight;
+Process roll;
 
 // BUTTONS
+int rollButton = 6;
+int rollButtonState = 0;
+int prevRollButtonState = 0;
 
 int upButton = 5;
 int upButtonState = 0;
@@ -66,7 +72,15 @@ void loop() {
   downButtonState = digitalRead(downButton);
   leftButtonState = digitalRead(leftButton);
   rightButtonState = digitalRead(rightButton);
+  rollButtonState = digitalRead(rollButton);
   
+  
+  if(rollButtonState == HIGH){
+     prevRollButtonState = HIGH;
+     roll.begin("curl");
+     roll.addParameter(rollUrl);
+     roll.run();
+  }
   
   if(upButtonState == HIGH){
     //Serial.println("up");
