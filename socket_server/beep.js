@@ -71,6 +71,12 @@ router.get("/even-right", function(request, response){
 	response.end("Even");
 })
 
+router.get("/roll", function(request, response){
+	io.emit("roll");
+	console.log("Barrell Roll");
+	response.end("Roll")
+})
+
 server.listen(3000, function(){
 	console.log("Server listening on port")
 })

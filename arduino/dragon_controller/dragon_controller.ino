@@ -21,7 +21,7 @@ String evenLeftUrl = ipAdd+"even-left/";
 
 String evenRightUrl = ipAdd+"even-right/";
 
-String rollUrl = ipAdd+"barrel-roll/";
+String rollUrl = ipAdd+"roll/";
 
 // PROCESS VARIABLES
 Process up;
@@ -81,6 +81,7 @@ void loop() {
      roll.addParameter(rollUrl);
      roll.run();
   }
+  
   
   if(upButtonState == HIGH){
     //Serial.println("up");
