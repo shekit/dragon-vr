@@ -57,6 +57,7 @@ public class TestSocketIO : MonoBehaviour
 	private bool downCoroutineStarted = false;
 	private bool leftCoroutineStarted = false;
 	private bool rightCoroutineStarted = false;
+	private bool rollCoroutineStart = false;
 
 
 	public void Start() 
@@ -528,6 +529,7 @@ public class TestSocketIO : MonoBehaviour
 
 	private IEnumerator BarrelRollEulerCoroutine(){
 		Debug.Log ("Barrel Roll euler");
+		rollCoroutineStarted = true;
 		float currentTime = Time.time;
 		while (euler.z<=360f) {
 			euler.z = (euler.z + rollSpeed * Time.deltaTime);
@@ -538,6 +540,11 @@ public class TestSocketIO : MonoBehaviour
 		euler.z = 0;
 		transform.eulerAngles = euler;
 		Debug.Log (euler.z);
+		rollCoroutineStarted = false;
+		//if another coroutine is running due to repeated button presses, then cancel it
+		if (rollCoroutineStarted == true) {
+			StopCoroutine ("BarrelRollEulerCoroutine");
+		}
 	}
 	
 	//// END OF USING EULER ANGLES ////
