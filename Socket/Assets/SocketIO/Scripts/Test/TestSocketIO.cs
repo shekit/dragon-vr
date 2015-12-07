@@ -44,6 +44,8 @@ public class TestSocketIO : MonoBehaviour
 	public float bankSpeed = 20f;
 	public float evenSpeed = 20f;
 
+	public float rollSpeed = 50f;
+
 	private Rigidbody rb;
 	public float thrust = 5f;
 
@@ -518,6 +520,25 @@ public class TestSocketIO : MonoBehaviour
 		downCoroutineStarted = false;
 	}
 	
+
+	public void BarrelRollEuler(){
+		StartCoroutine("BarrelRollEulerCoroutine");
+	}
+
+	private IEnumerator BarrelRollEulerCoroutine(){
+		Debug.Log ("Barrel Roll euler");
+		float currentTime = Time.time;
+		while (euler.z<=360f) {
+			euler.z = (euler.z + rollSpeed * Time.deltaTime);
+			Debug.Log (euler.z);
+			transform.eulerAngles = euler;
+			yield return null;
+		}
+		euler.z = 0;
+		transform.eulerAngles = euler;
+		Debug.Log (euler.z);
+	}
+	
 	//// END OF USING EULER ANGLES ////
 
 	public void Update(){
@@ -527,6 +548,11 @@ public class TestSocketIO : MonoBehaviour
 //			Debug.Log ("from loop");
 //			moveSpeed = Mathf.Lerp (moveSpeed, 10f, Time.deltaTime);
 //		}
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			//Debug.Log ("space");
+			BarrelRollEuler ();
+		}
+
 	}
 	
 
