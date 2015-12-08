@@ -57,7 +57,7 @@ public class TestSocketIO : MonoBehaviour
 	private bool downCoroutineStarted = false;
 	private bool leftCoroutineStarted = false;
 	private bool rightCoroutineStarted = false;
-	private bool rollCoroutineStart = false;
+	private bool rollCoroutineStarted = false;
 
 
 	public void Start() 
