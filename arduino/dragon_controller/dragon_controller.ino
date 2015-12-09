@@ -72,15 +72,15 @@ void loop() {
   downButtonState = digitalRead(downButton);
   leftButtonState = digitalRead(leftButton);
   rightButtonState = digitalRead(rightButton);
-  rollButtonState = digitalRead(rollButton);
+  //rollButtonState = digitalRead(rollButton);
   
   
-  if(rollButtonState == HIGH && rollButtonState != prevRollButtonState){
-     roll.begin("curl");
-     roll.addParameter(rollUrl);
-     roll.run();  
-  }
-  prevRollButtonState = rollButtonState;
+//  if(rollButtonState == HIGH && rollButtonState != prevRollButtonState){
+//     roll.begin("curl");
+//     roll.addParameter(rollUrl);
+//     roll.run();  
+//  }
+//  prevRollButtonState = rollButtonState;
   
   if(upButtonState == HIGH){
     //Serial.println("up");

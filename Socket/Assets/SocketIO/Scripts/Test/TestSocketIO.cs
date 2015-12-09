@@ -308,10 +308,10 @@ public class TestSocketIO : MonoBehaviour
 
 		// if you switch from left to right suddenly
 
-		if (rightCoroutineStarted == true) {
-			rightCoroutineStarted = false;
-			StopCoroutine("EvenRightEulerCoroutine");
-		}
+//		if (rightCoroutineStarted == true) {
+//			rightCoroutineStarted = false;
+//			StopCoroutine("EvenRightEulerCoroutine");
+//		}
 
 		float currentTime = Time.time;
 		while (Time.time <= currentTime + 1f) {
@@ -358,10 +358,10 @@ public class TestSocketIO : MonoBehaviour
 			StopCoroutine("EvenRightEulerCoroutine");
 		}
 
-		if (leftCoroutineStarted == true) {
-			leftCoroutineStarted = false;
-			StopCoroutine("EvenLeftEulerCoroutine");
-		}
+//		if (leftCoroutineStarted == true) {
+//			leftCoroutineStarted = false;
+//			StopCoroutine("EvenLeftEulerCoroutine");
+//		}
 
 		float currentTime = Time.time;
 		
@@ -413,10 +413,10 @@ public class TestSocketIO : MonoBehaviour
 			StopCoroutine("EvenUpEulerCoroutine");
 		}
 
-		if (downCoroutineStarted == true) {;
-			downCoroutineStarted = false;
-			StopCoroutine("EvenDownEulerCoroutine");
-		}
+//		if (downCoroutineStarted == true) {;
+//			downCoroutineStarted = false;
+//			StopCoroutine("EvenDownEulerCoroutine");
+//		}
 
 
 		float currentTime = Time.time;
@@ -470,10 +470,10 @@ public class TestSocketIO : MonoBehaviour
 			StopCoroutine("EvenDownEulerCoroutine");
 		}
 
-		if (upCoroutineStarted == true) {
-			upCoroutineStarted = false;
-			StopCoroutine("EvenUpEulerCoroutine");
-		}
+//		if (upCoroutineStarted == true) {
+//			upCoroutineStarted = false;
+//			StopCoroutine("EvenUpEulerCoroutine");
+//		}
 
 		float currentTime = Time.time;
 		
