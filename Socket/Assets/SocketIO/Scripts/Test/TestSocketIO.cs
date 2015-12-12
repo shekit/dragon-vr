@@ -303,7 +303,7 @@ public class TestSocketIO : MonoBehaviour
 			Debug.Log ("LEFT");
 			StartCoroutine ("LeftEuler");
 		} else {
-			Debug.Log ("NO LEFT- ROLL IN PROGRESS");
+			Debug.Log ("ROLL IN PROGRESS - NO LEFT");
 		}
 	}
 	
@@ -373,6 +373,8 @@ public class TestSocketIO : MonoBehaviour
 		if (rollCoroutineStarted == false) {
 			Debug.Log ("RIGHT");
 			StartCoroutine ("RightEuler");
+		} else {
+			Debug.Log ("ROLL IN PROGRESS - NO RIGHT");
 		}
 	}
 	
@@ -438,6 +440,8 @@ public class TestSocketIO : MonoBehaviour
 		if (rollCoroutineStarted == false) {
 			Debug.Log ("UP");
 			StartCoroutine ("UpEuler");
+		} else {
+			Debug.Log ("ROLL IN PROGRESS - NO UP");
 		}
 	}
 	
@@ -506,6 +510,8 @@ public class TestSocketIO : MonoBehaviour
 		if (rollCoroutineStarted == false) {
 			Debug.Log ("DOWN");
 			StartCoroutine ("DownEuler");
+		} else {
+			Debug.Log ("ROLL IN PROGRESS - NO DOWN");
 		}
 	}
 	
@@ -598,13 +604,22 @@ public class TestSocketIO : MonoBehaviour
 		float currentTime = Time.time;
 		while (euler.z<=360f) {
 			euler.z = (euler.z + rollSpeed * Time.deltaTime);
-			Debug.Log (euler.z);
+			//Debug.Log (euler.z);
 			transform.eulerAngles = euler;
 			yield return null;
 		}
 		euler.z = 0;
 		transform.eulerAngles = euler;
-		Debug.Log (euler.z);
+
+		// if dragon was rising or diving while rolling, when roll stops reorient to x = 0
+		if (euler.x > 0) {
+			Debug.Log ("EVEN DOWN MAN");
+			StartCoroutine ("EvenDownEulerCoroutine");
+		} else if (euler.x < 0) {
+			Debug.Log ("EVEN UP MAN");
+			StartCoroutine ("EvenUpEulerCoroutine");
+		}
+
 		rollCoroutineStarted = false;
 	}
 	
