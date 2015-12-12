@@ -302,6 +302,8 @@ public class TestSocketIO : MonoBehaviour
 		if (rollCoroutineStarted == false) {
 			Debug.Log ("LEFT");
 			StartCoroutine ("LeftEuler");
+		} else {
+			Debug.Log ("NO LEFT- ROLL IN PROGRESS");
 		}
 	}
 	
@@ -322,7 +324,9 @@ public class TestSocketIO : MonoBehaviour
 
 		float currentTime = Time.time;
 		while (Time.time <= currentTime + 1f) {
+			//turning angle
 			euler.y = (euler.y - turnSpeed * Time.deltaTime);
+			//banking angle
 			if(euler.z < 40){
 				euler.z = (euler.z + bankSpeed * Time.deltaTime);
 			}
@@ -334,7 +338,10 @@ public class TestSocketIO : MonoBehaviour
 	public void EvenLeftEuler(SocketIOEvent e){
 		
 		// if roll in progress block other movements
-		if (rollCoroutineStarted == false && rightCoroutineStarted == false) {
+
+		// if evening out on the right dont call evenleft as it causes it to 
+		// jump to zero as while loop condition in evenleftEulerCoroutine is never met
+		if (rollCoroutineStarted == false){// && rightCoroutineStarted == false) {
 			Debug.Log ("EVEN LEFT");
 			StartCoroutine ("EvenLeftEulerCoroutine");
 		} else {
@@ -352,7 +359,7 @@ public class TestSocketIO : MonoBehaviour
 			yield return null;
 		}
 		// properly reset the z
-		euler.z = 0;
+		//euler.z = 0;
 		transform.eulerAngles = euler;
 		leftCoroutineStarted = false;
 	}
@@ -399,7 +406,7 @@ public class TestSocketIO : MonoBehaviour
 		
 		// if roll in progress block other movements
 		// check if it is evening out on the left side, if it is dont do anything as it caused the z to jump to 0 instantly
-		if (rollCoroutineStarted == false && leftCoroutineStarted == false) {
+		if (rollCoroutineStarted == false){// && leftCoroutineStarted == false) {
 			Debug.Log ("EVEN RIGHT");
 			StartCoroutine ("EvenRightEulerCoroutine");
 		} else {
@@ -418,8 +425,8 @@ public class TestSocketIO : MonoBehaviour
 			yield return null;
 		}
 
-		// properly reset the z
-		euler.z = 0;
+		// properly reset the z DONT DO THIS - CAUSES WEIRD JUMPS WHEN TRANSITIONING ON SINGLE BUTTON CLCKS
+		//euler.z = 0;
 		transform.eulerAngles = euler;
 		rightCoroutineStarted = false;
 	}
@@ -463,7 +470,7 @@ public class TestSocketIO : MonoBehaviour
 	public void EvenUpEuler(SocketIOEvent e){
 		
 		// if roll in progress block other movements
-		if (rollCoroutineStarted == false && downCoroutineStarted == false) {
+		if (rollCoroutineStarted == false){// && downCoroutineStarted == false) {
 			Debug.Log ("EVEN UP");
 			StartCoroutine ("EvenUpEulerCoroutine");
 		} else {
@@ -484,7 +491,8 @@ public class TestSocketIO : MonoBehaviour
 			transform.eulerAngles = euler;
 			yield return null;
 		}
-		euler.x = 0;
+		//DONT DO THIS- CAUSES JUMPS WHEN TRANSITIONING FROM UP TO DOWN
+		//euler.x = 0;
 		transform.eulerAngles = euler;
 		//set bool to false once over
 		upCoroutineStarted = false;
@@ -536,7 +544,7 @@ public class TestSocketIO : MonoBehaviour
 
 		// if roll in progress block other movements
 		// if its evening up while rising and down button suddenly pressed, down called even down as it causes a jump to position 0 immediately
-		if (rollCoroutineStarted == false && upCoroutineStarted == false) {
+		if (rollCoroutineStarted == false){// && upCoroutineStarted == false) {
 			Debug.Log ("EVEN DOWN");
 			StartCoroutine ("EvenDownEulerCoroutine");
 		} else {
@@ -560,7 +568,8 @@ public class TestSocketIO : MonoBehaviour
 			yield return null;
 		}
 
-		euler.x = 0;
+		//DONT DO THIS- CAUSES JUMPS WHEN TRANSITIONING FROM UP TO DOWN
+		//euler.x = 0;
 		transform.eulerAngles = euler;
 		moveSpeed = originalMoveSpeed;
 //		while (moveSpeed > originalMoveSpeed) {
