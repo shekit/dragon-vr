@@ -296,10 +296,11 @@ public class TestSocketIO : MonoBehaviour
 
 	// LEFTTTTT
 	public void MoveLeftEuler(SocketIOEvent e){
-		Debug.Log ("euler left");
+		
 
 		// if roll in progress block other movements
 		if (rollCoroutineStarted == false) {
+			Debug.Log ("LEFT");
 			StartCoroutine ("LeftEuler");
 		}
 	}
@@ -307,7 +308,7 @@ public class TestSocketIO : MonoBehaviour
 	private IEnumerator LeftEuler(){
 		//if left button is pressed while dragon is evening out, cancel the evening out and turn more left
 		if (leftCoroutineStarted == true) {
-			Debug.Log ("CANCEL LEFT COROUTINE");
+			Debug.Log ("CANCEL LEFT EVENING");
 			leftCoroutineStarted = false;
 			StopCoroutine("EvenLeftEulerCoroutine");
 		}
@@ -325,22 +326,24 @@ public class TestSocketIO : MonoBehaviour
 			if(euler.z < 40){
 				euler.z = (euler.z + bankSpeed * Time.deltaTime);
 			}
-			//Debug.Log (euler.z);
 			transform.eulerAngles = euler;
 			yield return null;
 		}
 	}
 
 	public void EvenLeftEuler(SocketIOEvent e){
-		Debug.Log ("even up left");
+		
 		// if roll in progress block other movements
-		if (rollCoroutineStarted == false) {
+		if (rollCoroutineStarted == false && rightCoroutineStarted == false) {
+			Debug.Log ("EVEN LEFT");
 			StartCoroutine ("EvenLeftEulerCoroutine");
+		} else {
+			Debug.Log ("NO EVEN LEFT");
 		}
 	}
 
 	private IEnumerator EvenLeftEulerCoroutine(){
-		Debug.Log ("even left euler coroutine");
+		Debug.Log ("COROUTINE - EVEN LEFT");
 		leftCoroutineStarted = true;
 		yield return new WaitForSeconds (0.2f);
 		while (euler.z > 0) {
@@ -356,24 +359,28 @@ public class TestSocketIO : MonoBehaviour
 
 	/// RIGHTTTT
 	public void MoveRightEuler(SocketIOEvent e){
-		Debug.Log ("euler right");
+		
+
+
 		// if roll in progress block other movements
 		if (rollCoroutineStarted == false) {
+			Debug.Log ("RIGHT");
 			StartCoroutine ("RightEuler");
 		}
 	}
 	
 	private IEnumerator RightEuler(){
 		if (rightCoroutineStarted == true) {
-			Debug.Log ("CANCEL RIGHT COROUTINE");
+			Debug.Log ("CANCEL RIGHT EVENING");
 			rightCoroutineStarted = false;
 			StopCoroutine("EvenRightEulerCoroutine");
 		}
 
-//		if (leftCoroutineStarted == true) {
-//			leftCoroutineStarted = false;
-//			StopCoroutine("EvenLeftEulerCoroutine");
-//		}
+		//		if (leftCoroutineStarted == true) {
+		//			Debug.Log ("Stop left evening coroutine");
+		//			leftCoroutineStarted = false;
+		//			StopCoroutine("EvenLeftEulerCoroutine");
+		//		}
 
 		float currentTime = Time.time;
 		
@@ -382,22 +389,26 @@ public class TestSocketIO : MonoBehaviour
 			if(euler.z > -40){
 				euler.z = (euler.z - bankSpeed * Time.deltaTime);
 			}
-			//Debug.Log (euler.z);
 			transform.eulerAngles = euler;
 			yield return null;
 		}
+			
 	}
 
 	public void EvenRightEuler(SocketIOEvent e){
-		Debug.Log ("even right");
+		
 		// if roll in progress block other movements
-		if (rollCoroutineStarted == false) {
+		// check if it is evening out on the left side, if it is dont do anything as it caused the z to jump to 0 instantly
+		if (rollCoroutineStarted == false && leftCoroutineStarted == false) {
+			Debug.Log ("EVEN RIGHT");
 			StartCoroutine ("EvenRightEulerCoroutine");
+		} else {
+			Debug.Log ("NO EVEN RIGHT");
 		}
 	}
 
 	private IEnumerator EvenRightEulerCoroutine(){
-		Debug.Log ("even right euler coroutine");
+		Debug.Log ("COROUTINE - EVEN RIGHT");
 
 		rightCoroutineStarted = true;
 		yield return new WaitForSeconds (0.2f);
@@ -415,15 +426,15 @@ public class TestSocketIO : MonoBehaviour
 
 	//// UPPPPPP
 	public void MoveUpEuler(SocketIOEvent e){
-		Debug.Log ("euler up");
+		//Debug.Log ("euler up");
 		// if roll in progress block other movements
 		if (rollCoroutineStarted == false) {
+			Debug.Log ("UP");
 			StartCoroutine ("UpEuler");
 		}
 	}
 	
 	private IEnumerator UpEuler(){
-		Debug.Log ("Smooth up euler");
 		// if the dragon is leveling out and asked to rise again, cancel the leveling out
 		if (upCoroutineStarted == true) {
 			Debug.Log ("CANCEL UP COROUTINE");
@@ -450,20 +461,24 @@ public class TestSocketIO : MonoBehaviour
 	}
 
 	public void EvenUpEuler(SocketIOEvent e){
-		Debug.Log ("even up");
+		
 		// if roll in progress block other movements
-		if (rollCoroutineStarted == false) {
+		if (rollCoroutineStarted == false && downCoroutineStarted == false) {
+			Debug.Log ("EVEN UP");
 			StartCoroutine ("EvenUpEulerCoroutine");
+		} else {
+			Debug.Log ("NO EVEN UP");
 		}
 	}
 
 	
 	private IEnumerator EvenUpEulerCoroutine(){
-		Debug.Log ("Even up euler");
+		Debug.Log ("COROUTINE - EVEN UP");
 		//change bool so we know if to cancel it
 		upCoroutineStarted = true;
 		yield return new WaitForSeconds (0.2f);
 		while (euler.x < 0) {
+			
 			euler.x = (euler.x + evenSpeed*Time.deltaTime);
 			//euler.x = Mathf.LerpAngle(euler.x, 0.0f, Time.deltaTime);
 			transform.eulerAngles = euler;
@@ -481,6 +496,7 @@ public class TestSocketIO : MonoBehaviour
 		//moveSpeed = moveSpeed*2.0f;
 		// if roll in progress block other movements
 		if (rollCoroutineStarted == false) {
+			Debug.Log ("DOWN");
 			StartCoroutine ("DownEuler");
 		}
 	}
@@ -505,6 +521,7 @@ public class TestSocketIO : MonoBehaviour
 				if(moveSpeed < maxDiveSpeed){
 					moveSpeed += 0.08f;
 				}
+
 				//moveSpeed = Mathf.Lerp(moveSpeed, diveSpeed, Time.deltaTime);
 				euler.x = (euler.x+turnSpeed*Time.deltaTime);
 				//Debug.Log ("Euler x: "+ euler.x);
@@ -516,22 +533,27 @@ public class TestSocketIO : MonoBehaviour
 	}
 
 	public void EvenDownEuler(SocketIOEvent e){
-		//Debug.Log ("even down");
+
 		// if roll in progress block other movements
-		if (rollCoroutineStarted == false) {
+		// if its evening up while rising and down button suddenly pressed, down called even down as it causes a jump to position 0 immediately
+		if (rollCoroutineStarted == false && upCoroutineStarted == false) {
+			Debug.Log ("EVEN DOWN");
 			StartCoroutine ("EvenDownEulerCoroutine");
+		} else {
+			Debug.Log ("NO EVEN DOWN");
 		}
 
 	}
 
 	private IEnumerator EvenDownEulerCoroutine(){
-		Debug.Log ("Even down euler");
+		Debug.Log ("COROUTINE - EVEN DOWN");
 		downCoroutineStarted = true;
 		yield return new WaitForSeconds (0.2f);
 		while (euler.x > 0) {
 			if(moveSpeed>originalMoveSpeed){
 				moveSpeed -= 0.1f;
 			}
+
 			//moveSpeed = Mathf.Lerp(diveSpeed, moveSpeed, Time.deltaTime);
 			euler.x = (euler.x - evenSpeed*Time.deltaTime);
 			transform.eulerAngles = euler;
@@ -554,15 +576,15 @@ public class TestSocketIO : MonoBehaviour
 		//only let second barrel roll start once one roll is over
 
 		if (rollCoroutineStarted == false) {
-			Debug.Log ("Start a roll");
+			Debug.Log ("ROLL");
 			StartCoroutine ("RollEulerCoroutine");
 		} else {
-			Debug.Log ("roll in progress, not gona do anything");
+			Debug.Log ("NO ROLL");
 		}
 	}
 		
 	private IEnumerator RollEulerCoroutine(){
-		Debug.Log ("Barrel Roll euler");
+		Debug.Log ("COROUTINE - ROLL");
 		rollCoroutineStarted = true;
 		float currentTime = Time.time;
 		while (euler.z<=360f) {
@@ -581,10 +603,10 @@ public class TestSocketIO : MonoBehaviour
 
 	public void Update(){
 		// start/stop flying on button click
-		if (Cardboard.SDK.Triggered) {
-			isFlying = !isFlying;
-		}
-
+//		if (Cardboard.SDK.Triggered) {
+//			isFlying = !isFlying;
+//		}
+//
 		if (isFlying) {
 			transform.Translate (Vector3.forward * moveSpeed * Time.deltaTime);
 		}
