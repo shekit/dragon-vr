@@ -59,6 +59,8 @@ public class TestSocketIO : MonoBehaviour
 	private bool rightCoroutineStarted = false;
 	private bool rollCoroutineStarted = false;
 
+	private bool isFlying = true; //change this to false when cardboard is active
+
 
 	public void Start() 
 	{
@@ -295,7 +297,11 @@ public class TestSocketIO : MonoBehaviour
 	// LEFTTTTT
 	public void MoveLeftEuler(SocketIOEvent e){
 		Debug.Log ("euler left");
-		StartCoroutine ("LeftEuler");
+
+		// if roll in progress block other movements
+		if (rollCoroutineStarted == false) {
+			StartCoroutine ("LeftEuler");
+		}
 	}
 	
 	private IEnumerator LeftEuler(){
@@ -327,7 +333,10 @@ public class TestSocketIO : MonoBehaviour
 
 	public void EvenLeftEuler(SocketIOEvent e){
 		Debug.Log ("even up left");
-		StartCoroutine ("EvenLeftEulerCoroutine");
+		// if roll in progress block other movements
+		if (rollCoroutineStarted == false) {
+			StartCoroutine ("EvenLeftEulerCoroutine");
+		}
 	}
 
 	private IEnumerator EvenLeftEulerCoroutine(){
@@ -348,7 +357,10 @@ public class TestSocketIO : MonoBehaviour
 	/// RIGHTTTT
 	public void MoveRightEuler(SocketIOEvent e){
 		Debug.Log ("euler right");
-		StartCoroutine ("RightEuler");
+		// if roll in progress block other movements
+		if (rollCoroutineStarted == false) {
+			StartCoroutine ("RightEuler");
+		}
 	}
 	
 	private IEnumerator RightEuler(){
@@ -378,7 +390,10 @@ public class TestSocketIO : MonoBehaviour
 
 	public void EvenRightEuler(SocketIOEvent e){
 		Debug.Log ("even right");
-		StartCoroutine ("EvenRightEulerCoroutine");
+		// if roll in progress block other movements
+		if (rollCoroutineStarted == false) {
+			StartCoroutine ("EvenRightEulerCoroutine");
+		}
 	}
 
 	private IEnumerator EvenRightEulerCoroutine(){
@@ -401,7 +416,10 @@ public class TestSocketIO : MonoBehaviour
 	//// UPPPPPP
 	public void MoveUpEuler(SocketIOEvent e){
 		Debug.Log ("euler up");
-		StartCoroutine ("UpEuler");
+		// if roll in progress block other movements
+		if (rollCoroutineStarted == false) {
+			StartCoroutine ("UpEuler");
+		}
 	}
 	
 	private IEnumerator UpEuler(){
@@ -433,7 +451,10 @@ public class TestSocketIO : MonoBehaviour
 
 	public void EvenUpEuler(SocketIOEvent e){
 		Debug.Log ("even up");
-		StartCoroutine ("EvenUpEulerCoroutine");
+		// if roll in progress block other movements
+		if (rollCoroutineStarted == false) {
+			StartCoroutine ("EvenUpEulerCoroutine");
+		}
 	}
 
 	
@@ -458,8 +479,10 @@ public class TestSocketIO : MonoBehaviour
 	public void MoveDownEuler(SocketIOEvent e){
 		//Debug.Log ("euler down");
 		//moveSpeed = moveSpeed*2.0f;
-
-		StartCoroutine ("DownEuler");
+		// if roll in progress block other movements
+		if (rollCoroutineStarted == false) {
+			StartCoroutine ("DownEuler");
+		}
 	}
 	
 	private IEnumerator DownEuler(){
@@ -494,7 +517,10 @@ public class TestSocketIO : MonoBehaviour
 
 	public void EvenDownEuler(SocketIOEvent e){
 		//Debug.Log ("even down");
-		StartCoroutine ("EvenDownEulerCoroutine");
+		// if roll in progress block other movements
+		if (rollCoroutineStarted == false) {
+			StartCoroutine ("EvenDownEulerCoroutine");
+		}
 
 	}
 
@@ -554,17 +580,14 @@ public class TestSocketIO : MonoBehaviour
 	//// END OF USING EULER ANGLES ////
 
 	public void Update(){
-		transform.Translate (Vector3.forward * moveSpeed * Time.deltaTime);
-
-//		if (moveSpeed > 10f) {
-//			Debug.Log ("from loop");
-//			moveSpeed = Mathf.Lerp (moveSpeed, 10f, Time.deltaTime);
-//		}
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			//Debug.Log ("space");
-			BarrelRollEuler ();
+		// start/stop flying on button click
+		if (Cardboard.SDK.Triggered) {
+			isFlying = !isFlying;
 		}
 
+		if (isFlying) {
+			transform.Translate (Vector3.forward * moveSpeed * Time.deltaTime);
+		}
 	}
 	
 
