@@ -100,7 +100,7 @@ public class TestSocketIO : MonoBehaviour
 		socket.On ("evendown", EvenDownEuler);
 		socket.On ("evenleft", EvenLeftEuler);
 		socket.On ("evenright", EvenRightEuler);
-		//socket.On ("roll", BarrelRollEuler);
+		socket.On ("roll", RollEuler);
 
 	}
 
@@ -495,6 +495,7 @@ public class TestSocketIO : MonoBehaviour
 	public void EvenDownEuler(SocketIOEvent e){
 		//Debug.Log ("even down");
 		StartCoroutine ("EvenDownEulerCoroutine");
+
 	}
 
 	private IEnumerator EvenDownEulerCoroutine(){
@@ -521,13 +522,20 @@ public class TestSocketIO : MonoBehaviour
 
 		downCoroutineStarted = false;
 	}
-	
 
-	public void BarrelRollEuler(){
-		StartCoroutine("BarrelRollEulerCoroutine");
+	public void RollEuler(SocketIOEvent e){
+
+		//only let second barrel roll start once one roll is over
+
+		if (rollCoroutineStarted == false) {
+			Debug.Log ("Start a roll");
+			StartCoroutine ("RollEulerCoroutine");
+		} else {
+			Debug.Log ("roll in progress, not gona do anything");
+		}
 	}
-
-	private IEnumerator BarrelRollEulerCoroutine(){
+		
+	private IEnumerator RollEulerCoroutine(){
 		Debug.Log ("Barrel Roll euler");
 		rollCoroutineStarted = true;
 		float currentTime = Time.time;
@@ -541,10 +549,6 @@ public class TestSocketIO : MonoBehaviour
 		transform.eulerAngles = euler;
 		Debug.Log (euler.z);
 		rollCoroutineStarted = false;
-		//if another coroutine is running due to repeated button presses, then cancel it
-		if (rollCoroutineStarted == true) {
-			StopCoroutine ("BarrelRollEulerCoroutine");
-		}
 	}
 	
 	//// END OF USING EULER ANGLES ////
