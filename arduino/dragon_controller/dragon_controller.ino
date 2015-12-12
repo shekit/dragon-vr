@@ -3,7 +3,7 @@
 
 // URLS FOR PARAMETERS
 
-String ipAdd = "http://128.122.6.245:3000/";
+String ipAdd = "http://128.122.6.128:3000/";
 
 String upUrl = ipAdd+"up/"; 
 
@@ -72,15 +72,15 @@ void loop() {
   downButtonState = digitalRead(downButton);
   leftButtonState = digitalRead(leftButton);
   rightButtonState = digitalRead(rightButton);
-  //rollButtonState = digitalRead(rollButton);
+  rollButtonState = digitalRead(rollButton);
   
   
-//  if(rollButtonState == HIGH && rollButtonState != prevRollButtonState){
-//     roll.begin("curl");
-//     roll.addParameter(rollUrl);
-//     roll.run();  
-//  }
-//  prevRollButtonState = rollButtonState;
+  if(rollButtonState == HIGH && rollButtonState != prevRollButtonState){
+     roll.begin("curl");
+     roll.addParameter(rollUrl);
+     roll.run();  
+  }
+  prevRollButtonState = rollButtonState;
   
   if(upButtonState == HIGH){
     //Serial.println("up");
