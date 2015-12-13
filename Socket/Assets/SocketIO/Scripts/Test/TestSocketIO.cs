@@ -600,13 +600,27 @@ public class TestSocketIO : MonoBehaviour
 		
 	private IEnumerator RollEulerCoroutine(){
 		Debug.Log ("COROUTINE - ROLL");
+
+		// can check for and cancel even up or even down coroutine if you want here
+
 		rollCoroutineStarted = true;
 		float currentTime = Time.time;
-		while (euler.z<=360f) {
-			euler.z = (euler.z + rollSpeed * Time.deltaTime);
-			//Debug.Log (euler.z);
-			transform.eulerAngles = euler;
-			yield return null;
+
+		// if turning left or moving straight do barrel roll to the left
+		if (euler.z > 0 || euler.z == 0) {
+			while (euler.z <= 360f) {
+				euler.z = (euler.z + rollSpeed * Time.deltaTime);
+				//Debug.Log (euler.z);
+				transform.eulerAngles = euler;
+				yield return null;
+			}
+		} else if (euler.z < 0) {  // if turning right z will be less than 0 and do barrel roll to theright
+			while (euler.z >= -360f) {
+				euler.z = (euler.z - rollSpeed * Time.deltaTime);
+				//Debug.Log (euler.z);
+				transform.eulerAngles = euler;
+				yield return null;
+			}
 		}
 		euler.z = 0;
 		transform.eulerAngles = euler;
@@ -615,6 +629,7 @@ public class TestSocketIO : MonoBehaviour
 		if (euler.x > 0) {
 			Debug.Log ("EVEN DOWN MAN");
 			StartCoroutine ("EvenDownEulerCoroutine");
+
 		} else if (euler.x < 0) {
 			Debug.Log ("EVEN UP MAN");
 			StartCoroutine ("EvenUpEulerCoroutine");
