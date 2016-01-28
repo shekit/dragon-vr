@@ -10,6 +10,10 @@ io.attach(4567);
 io.on('connection', function(socket){
 	console.log('unity connected')
 
+	socket.on('fly', function(){
+		io.emit("move")
+	})
+
 	socket.on('disconnect', function(){
 		console.log("Unity disconnected")
 	})
@@ -76,6 +80,13 @@ router.get("/roll", function(request, response){
 	console.log("Barrell Roll");
 	response.end("Roll")
 })
+
+router.get("/reset", function(request, response){
+	io.emit("reset");
+	console.log("Reset");
+	response.end("Reset");
+})
+
 
 server.listen(3000, function(){
 	console.log("Server listening on port")

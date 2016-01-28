@@ -3,7 +3,7 @@
 
 // URLS FOR PARAMETERS
 
-String ipAdd = "http://128.122.6.128:3000/";
+String ipAdd = "http://192.168.1.3:3000/";
 
 String upUrl = ipAdd+"up/"; 
 
